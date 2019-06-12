@@ -1,0 +1,27 @@
+[
+    {
+        "title" : "Computational-Design Stadium",
+        "content": "Structure analysis through Karamba",
+        "user_id": 1
+    },
+    {
+        "title":"Computational-Design Cinema",
+        "content":"Budapest cinema",
+        "user_id": 1
+    },
+    {
+        "title":"Recent news about computational design",
+        "content":"News Related",
+        "user_id": 2
+    },
+    {
+        "title":"Computational-Deaign Urban design",
+        "content":"urban data",
+        "user_id": 1
+    },
+    {
+        "title":"Architecture & Computational design",
+        "content":"Built Environment",
+        "user_id": 2
+    }
+]

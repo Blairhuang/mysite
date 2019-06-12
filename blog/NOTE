@@ -1,0 +1,123 @@
+ #<div class="container">
+        {% block content %}{% endblock %}
+    </div>
+用于创建一个parent-block content 去储存 然后在about & home page里面填充相应的内容
+即
+{% block content %}
+.....
+{% endblock %}
+
+
+    <link rel="stylesheet" type='text/css' href="">
+    link with a stylesheet type is css， href 表明css的location--///// href="{% static 'blog/main.css' %}"
+
+    <legend class="border-bottom mb-4">Jion Today</legend> mb 意味着 margin
+
+    HREF location
+
+
+
+
+    register html
+{% extends'users/base.html' %}  
+{% block content %} ////create content-section
+    <div class="content-section"> ///开头都要有一个div， 跟着 class=  
+        <form method="POST"> //// 
+            {% csrf_token %}  ///csrf_token: adding csrf token 为了保护 防止攻击 add security 
+            /// 每一个form 开头都要加一个这个 没有的话 form 就不能用
+            <fieldset class="form-group"> 
+                <legend class="border-bottom mb-4">Jion Today</legend> ///Jion Today 是显示文字 class 中添加文字的大小，边距。。。
+                {{form}} ///print out form ---{{form}}
+            </fieldset>
+            <div class="form-group">///add styles 都要加 form-group 作为class
+                <button class="btn bt-outline-info" type="submit">Sign Up</button> 
+            </div>
+
+        </form>
+        <div class="border-top pt-3"> ////pt=padding top
+            <small class="text-muted">
+                Already Have An Account? <a class="ml-2" href="#">Sign In</a>
+            </small>
+        </div>
+    </div>
+{% end block %}
+
+
+
+html div 表明文档中的分区 div=division， 即将文档分割成不同的部分
+<！DOCTYPE> 表明是html 文档的第一行
+<fieldset>
+group the elements in the form..
+例子:
+<form action="test.php" method="POST">
+    <fieldset>
+        <legend>Title</legend>
+        <input type="radio" id="radio"><label for="radio">Click me</label>
+    </fieldset>
+</form>
+
+legend 表明是这个filed 的子集 即child of fieldset
+
+....form--fieldset--legend--{{}} print final 
+
+register 完成以后发现网页 文字段落排布有问题， 则{{form.as_p}}  加入as_p, 
+表明文字以段落的形式排布
+
+///// request.method=="POST" post 向服务器 即database传输数据
+post 的方式是 request.form... POST 用于创建资源，例如在数据库中添加新的数据
+get 用于 1.为了查找资源//从服务器上获取资源
+
+
+views.py
+
+from django.shortcuts import render, redirect
+#from django.contrib.auth.forms import UserCreationForm #create 默认’注册‘格式，
+from django.contrib import messages
+from .forms import UserRegisterForm
+
+def register(request):
+    if request.method == "POST": #检测是否是post request 
+        form = UserRegisterForm(request.POST) #在django 的Userregister form里面包含的user creationform 里面会自动检测格式是否valid
+        if form.is_valid(): #如果提交格式有效
+            form.save() #save的话 则同样的user name在admin page会成功载入该account
+            username = form.cleaned_data.get('username') #从数据库里提取username//cleaned_data 只有在form is_valid()情况下才可以使用
+            messages.success(request,f'Account created for {username}!') #当输入值有效的时候，SUCESS()// request 一定是第一个argumengt//f 代表format
+            return redirect('blog-home') #创建好用户后，要重新导向回到首页，利用redirect blog-home在url pattern里面
+    else:
+        form = UserRegisterForm()
+    return render(request,'users/register.html',{'form':form}) #当from 检测出来无效时，自动return 重新回到注册页面
+
+
+
+    {{form|crispy}}  html 网页中 |表示 filter 即引入crispy text 的风格
+
+     Need An Account? <a class="ml-2" href="{% url'register' %}">Sign Up Now</a>
+     href 相当于点击后将你引导到这个位置上
+
+     Already Have An Account? <a class="ml-2" href="{% url 'login' %}">Sign In</a>
+    url 前后两个空格不能忘
+
+
+    blog---base template CONTAINE navigation 包含了所有功能的索引 指向
+NAVIGATION 
+<div class="navbar-nav">
+              {% if user.is_authenticated %} ///表明如果user已经认证的话 ，则有logout的资格，不然else----login or register
+              <a class="nav-item nav-link" href="{% url'Login' %}">Login</a>
+              <a class="nav-item nav-link" href="{% url'register' %}">Register</a>
+            </div>
+
+class Profile(models.model): # inherit from models.model
+    user = models.OneToOneField(User, on_delete=models.CASADE)
+user for the Profile= One to One relationship ///on_delete 即告诉user 如果删除user以后， models.CASADE 
+    表明 CASADE user 如果被删除的话，则 profile 会被删除 但是profile删除 user不会被删除
+
+    on_delete保护user one way to delete
+
+
+
+def __str__(self): 
+__str__ 表示 如果要把一个类的实例变成str,则print出来使对象变为字符串
+
+
+MEDIA_ROOT = os.path.join(BASE_DIR,'media') 
+os.path.join() 将多个路径组合后返回
