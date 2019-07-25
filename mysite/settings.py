@@ -25,7 +25,7 @@ SECRET_KEY = 'hmrstprfdldb=3m+gkjg_84f5qftgyw*3rgc*(m2#!sfk)kwy6'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
